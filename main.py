@@ -4,9 +4,11 @@ import sounddevice as sd
 import pynput.mouse
 import pynput.keyboard
 
-duration = 10 #in seconds
+duration = 10  # in seconds
 
 volume = 0
+
+released = False
 
 keyboard = pynput.keyboard.Controller()
 mouse = pynput.mouse.Controller()
@@ -21,14 +23,20 @@ def audio_callback(indata, frames, time, status):
 stream = sd.InputStream(callback=audio_callback)
 with stream:
     while True:
-        if volume > 10:
-            #keyboard.press('L')
-            #keyboard.press(pynput.keyboard.Key.space)
-            mouse.press(pynput.mouse.Button.left)
-            print("                  doing it")
+        if volume > 5:
+            # keyboard.press('L')
+            # keyboard.press(pynput.keyboard.Key.space)
+            if released:
+                mouse.press(pynput.mouse.Button.left)
+                released = False
+
+                print("                  doing it")
 
         else:
-            #keyboard.release('L')
-            #keyboard.release(pynput.keyboard.Key.space)
-            mouse.release(pynput.mouse.Button.left)
-            print("stopped")
+            # keyboard.release('L')
+            # keyboard.release(pynput.keyboard.Key.space)
+            if not released:
+                mouse.release(pynput.mouse.Button.left)
+                released = True
+
+                print("stopped")
