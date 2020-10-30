@@ -1,2 +1,2 @@
 # ScreamMic
-Scream into mic and click mouse as a result
+A python script which simulates a mouse click when it detects a microphone input above a certain decibal threshold
